@@ -24,7 +24,7 @@ export const site = {
   },
 
   /** Portrait shown behind the wordmark. Drop your image in /public and update the path. */
-  portrait: "/hero-portrait.png",
+  portrait: "/hero-portrait.webp",
 
   cta: {
     label: "Get in touch",
