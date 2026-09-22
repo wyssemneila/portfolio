@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import Image from "next/image";
 import { site } from "@/lib/site";
 
 export default function Hero() {
@@ -13,11 +14,20 @@ export default function Hero() {
             "radial-gradient(120% 90% at 50% 0%, #3b6df5 0%, #1e4bd8 40%, #123cc4 70%, #0a1f7a 100%)",
         }}
       />
-      {/* portrait (public/hero-portrait.png) — smaller & top-aligned on mobile */}
-      <div
-        className="reveal-img absolute inset-0 bg-no-repeat bg-center bg-[length:auto_90%] sm:bg-[length:auto_96%]"
-        style={{ backgroundImage: `url(${site.portrait})` }}
-      />
+      {/* portrait (public/hero-portrait.png) — optimized with next/image priority */}
+      <div className="reveal-img pointer-events-none absolute inset-0 flex items-center justify-center">
+        <div className="relative h-[90%] w-full sm:h-[96%]">
+          <Image
+            src={site.portrait}
+            alt={site.brand}
+            fill
+            priority
+            fetchPriority="high"
+            className="object-contain object-center"
+            sizes="(max-width: 768px) 100vw, 1400px"
+          />
+        </div>
+      </div>
       {/* subtle blue wash to blend photo edges with UI */}
       <div
         className="absolute inset-0"
