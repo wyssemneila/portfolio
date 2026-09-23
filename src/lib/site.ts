@@ -71,6 +71,7 @@ export const site = {
         client: "Spec Ad",
         year: "2025",
         kind: "video",
+        aspect: "9/16",
         video: "https://vimeo.com/1229292653?share=copy&fl=sv&fe=ci",
         caseStudy: {
           tagline: "AI Commercial · Spec Ad",
@@ -118,6 +119,7 @@ export const site = {
         client: "TSYP",
         year: "2025",
         kind: "video",
+        aspect: "9/16",
         video: "https://vimeo.com/1229544988?fl=tl&fe=ec",
         caseStudy: {
           tagline: "Official Theme Reveal · Cinematic AI Teaser",
@@ -245,6 +247,7 @@ export type Project = {
   poster?: string;
   images?: string[];
   shots?: number;
+  aspect?: "9/16" | "16/9";
   caseStudy?: CaseStudy;
 };
 
