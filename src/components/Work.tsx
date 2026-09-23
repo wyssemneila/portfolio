@@ -56,20 +56,18 @@ export default function Work() {
 
         setCommercials(() => {
           const dbMap = new Map(commData.map((p) => [p.title, p]));
-          const merged = site.work.commercials.map((p) => dbMap.get(p.title) || p);
-          commData
-            .filter((p) => !site.work.commercials.some((s) => s.title === p.title))
-            .forEach((p) => merged.push(p));
-          return merged;
+          return site.work.commercials.map((p) => {
+            const dbItem = dbMap.get(p.title);
+            return dbItem ? { ...p, ...dbItem, caseStudy: p.caseStudy || dbItem.caseStudy } : p;
+          });
         });
 
         setDesign(() => {
           const dbMap = new Map(desData.map((p) => [p.title, p]));
-          const merged = site.work.design.map((p) => dbMap.get(p.title) || p);
-          desData
-            .filter((p) => !site.work.design.some((s) => s.title === p.title))
-            .forEach((p) => merged.push(p));
-          return merged;
+          return site.work.design.map((p) => {
+            const dbItem = dbMap.get(p.title);
+            return dbItem ? { ...p, ...dbItem, caseStudy: p.caseStudy || dbItem.caseStudy } : p;
+          });
         });
       }
     }
@@ -218,29 +216,16 @@ function Card({
           </span>
         </div>
 
-        {project.caseStudy ? (
-          <button
-            type="button"
-            onClick={() => onOpen(project)}
-            className="inline-flex items-center gap-1.5 rounded-full bg-slate-900 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-accent hover:scale-105 active:scale-95"
-          >
-            Case Study
-            <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </button>
-        ) : isCollection ? (
-          <button
-            type="button"
-            onClick={() => onOpen(project)}
-            className="inline-flex items-center gap-1.5 rounded-full bg-slate-900 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-accent hover:scale-105 active:scale-95"
-          >
-            View Gallery
-            <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </button>
-        ) : null}
+        <button
+          type="button"
+          onClick={() => onOpen(project)}
+          className="inline-flex items-center gap-1.5 rounded-full bg-slate-900 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-accent hover:scale-105 active:scale-95"
+        >
+          {isCollection ? "View Gallery" : "See Full Project Details"}
+          <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </button>
       </figcaption>
     </figure>
   );
