@@ -118,7 +118,7 @@ export const site = {
         client: "TSYP",
         year: "2025",
         kind: "video",
-        video: "/work/theme-reveal-tsyp-14.mp4",
+        video: "https://vimeo.com/1229544988?fl=tl&fe=ec",
         caseStudy: {
           tagline: "Official Theme Reveal · Cinematic AI Teaser",
           headline: "WHERE VISION MEETS DESTINY",
