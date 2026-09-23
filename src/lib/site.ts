@@ -67,98 +67,47 @@ export const site = {
      */
     commercials: [
       {
-        title: "Sneaker Launch Film",
+        title: "AI Commercial 01",
+        client: "Brand Film",
+        year: "2025",
+        kind: "video",
+        video: "https://vimeo.com/1229552721?fl=tl&fe=ec",
+      },
+      {
+        title: "AI Commercial 02",
+        client: "Commercial Campaign",
+        year: "2025",
+        kind: "video",
+        video: "https://vimeo.com/1229552722?fl=tl&fe=ec",
+      },
+      {
+        title: "AI Commercial 03",
+        client: "Product Teaser",
+        year: "2025",
+        kind: "video",
+        video: "https://vimeo.com/1229552658?fl=tl&fe=ec",
+      },
+      {
+        title: "AI Commercial 04",
         client: "Spec Ad",
         year: "2025",
         kind: "video",
-        aspect: "9/16",
-        video: "https://vimeo.com/1229292653?share=copy&fl=sv&fe=ci",
-        caseStudy: {
-          tagline: "AI Commercial · Spec Ad",
-          headline: "TIMELESS IN EVERY MOMENT",
-          overview:
-            "A high-end cinematic commercial concept blending generative AI video synthesis with traditional film editing and color science. Designed to demonstrate product craftsmanship, fluid motion dynamics, and luxury commercial lighting.",
-          concept:
-            "The narrative follows the emergence of craftsmanship from raw earth — capturing micro-textures, sand displacement physics, and dynamic camera choreography without a physical production set.",
-          storyboard: [
-            { title: "Opening Aerial", caption: "Endless desert dunes at sunrise with volumetric golden rays." },
-            { title: "Sand Displacement", caption: "Macro cinematic push-in as fine sand particles reveal the silhouette." },
-            { title: "Hero Reveal", caption: "Dynamic low-angle pedestal shot capturing specular light reflections." },
-          ],
-          prompts: [
-            {
-              time: "0–2s",
-              frame: "FRAME 1 · WIDE ESTABLISHING",
-              prompt:
-                "Extreme wide shot. Endless white dunes at sunrise. Slow cinematic aerial push-in. Volumetric sun rays sweep across the dunes with subtle wind motion.",
-            },
-            {
-              time: "2–5s",
-              frame: "FRAME 2 · MACRO TRACKING",
-              prompt:
-                "Camera reaches the buried object. Sand begins to shift and crack around the metallic edges. Macro cinematic dolly-in with floating dust particles.",
-            },
-            {
-              time: "5–8s",
-              frame: "FRAME 3 · HERO REVEAL",
-              prompt:
-                "Hero reveal between desert rocks. Camera performs a smooth cinematic crane-up with slight orbit. Premium luxury advertising look with volumetric rim lighting.",
-            },
-            {
-              time: "8–12s",
-              frame: "FRAME 4 · MACRO TEXTURES",
-              prompt:
-                "Extreme macro sequence. Camera slides across engraved bevel details and surface texture. Ultra-shallow depth of field with specular highlights.",
-            },
-          ],
-          tools: ["Higgsfield", "ComfyUI", "Premiere Pro", "DaVinci Resolve"],
-        },
+        video: "https://vimeo.com/1229552655?fl=tl&fe=ec",
       },
       {
-        title: "Theme Reveal TSYP 14",
-        client: "TSYP",
+        title: "AI Commercial 05",
+        client: "Social Campaign",
         year: "2025",
         kind: "video",
-        aspect: "9/16",
-        video: "https://vimeo.com/1229544988?fl=tl&fe=ec",
-        caseStudy: {
-          tagline: "Official Theme Reveal · Cinematic AI Teaser",
-          headline: "WHERE VISION MEETS DESTINY",
-          overview:
-            "The official cinematic theme reveal for TSYP 14. Combining celestial visual metaphors, custom 3D lighting, and atmospheric sound design to unveil this year's congress theme.",
-          concept:
-            "A cosmic voyage traversing starlit plains and astronomical phenomena, guiding the audience toward the grand revelation of the congress identity.",
-          storyboard: [
-            { title: "Starlit Expanse", caption: "Under the celestial dome, an illuminated figure gazes into the cosmos." },
-            { title: "Atmospheric Pulse", caption: "Volumetric light pulses as constellations align across the sky." },
-            { title: "The Grand Reveal", caption: "The congress identity materializes through starlight and energy." },
-          ],
-          prompts: [
-            {
-              time: "0–4s",
-              frame: "FRAME 1 · CELESTIAL OPENING",
-              prompt:
-                "Cinematic night sky filled with luminous constellations. Camera pans smoothly across a mystical landscape as ambient starlight illuminates the horizon.",
-            },
-            {
-              time: "4–8s",
-              frame: "FRAME 2 · THE ALIGNMENT",
-              prompt:
-                "Camera accelerates toward a celestial anomaly. Particles of glowing stardust swirl in slow motion, forming geometric alignment lines.",
-            },
-            {
-              time: "8–14s",
-              frame: "FRAME 3 · THE THEME REVEAL",
-              prompt:
-                "Explosion of soft volumetric light. The congress emblem and theme typography emerge in sharp metallic relief with atmospheric smoke and flare.",
-            },
-          ],
-          tools: ["Google Flow", "After Effects", "Photoshop", "Suno AI"],
-        },
+        video: "https://vimeo.com/1229547474?fl=tl&fe=ec",
       },
-      { title: "Perfume Campaign", client: "Lumière", year: "2025", kind: "collection", shots: 6 },
-      { title: "Energy Drink Teaser", client: "Volt", year: "2024", kind: "video" },
-      { title: "Skincare Product Set", client: "Dermal", year: "2024", kind: "collection", shots: 8 },
+      {
+        title: "AI Commercial 06",
+        client: "Brand Story",
+        year: "2025",
+        kind: "video",
+        video: "https://vimeo.com/1229547473?fl=tl&fe=ec",
+      },
     ] as Project[],
 
     design: [

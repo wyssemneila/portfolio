@@ -33,7 +33,6 @@ const SHOT_GRADIENTS = [
 export default function Work() {
   const [active, setActive] = useState<TabId>("commercials");
   const [open, setOpen] = useState<Project | null>(null);
-  const [theaterVideo, setTheaterVideo] = useState<Project | null>(null);
   const [commercials, setCommercials] = useState<Project[]>(site.work.commercials);
   const [design, setDesign] = useState<Project[]>(site.work.design);
 
@@ -117,31 +116,16 @@ export default function Work() {
 
         {/* Content */}
         {active === "commercials" && (
-          <Grid
-            projects={commercials}
-            onOpen={setOpen}
-            onPlayTheater={setTheaterVideo}
-          />
+          <Grid projects={commercials} onOpen={setOpen} />
         )}
         {active === "design" && (
-          <Grid
-            projects={design}
-            onOpen={setOpen}
-            onPlayTheater={setTheaterVideo}
-          />
+          <Grid projects={design} onOpen={setOpen} />
         )}
         {active === "about" && <About />}
         {active === "tools" && <Tools />}
       </div>
 
       {open && <Lightbox project={open} onClose={() => setOpen(null)} />}
-      {theaterVideo && (
-        <VideoTheaterModal
-          project={theaterVideo}
-          onClose={() => setTheaterVideo(null)}
-          onOpenDetails={setOpen}
-        />
-      )}
     </section>
   );
 }
@@ -149,11 +133,9 @@ export default function Work() {
 function Grid({
   projects,
   onOpen,
-  onPlayTheater,
 }: {
   projects: Project[];
   onOpen: (p: Project) => void;
-  onPlayTheater: (p: Project) => void;
 }) {
   return (
     <div className="grid gap-6 sm:grid-cols-2 sm:gap-8">
@@ -167,7 +149,6 @@ function Grid({
             project={p}
             gradient={CARD_GRADIENTS[i % CARD_GRADIENTS.length]}
             onOpen={onOpen}
-            onPlayTheater={onPlayTheater}
           />
         </div>
       ))}
@@ -185,54 +166,31 @@ function Card({
   project,
   gradient,
   onOpen,
-  onPlayTheater,
 }: {
   project: Project;
   gradient: string;
   onOpen: (p: Project) => void;
-  onPlayTheater: (p: Project) => void;
 }) {
   const isCollection = project.kind === "collection";
   const vimeoId = getVimeoId(project.video);
-  const isVertical = project.aspect === "9/16";
 
   return (
     <figure className="group">
       <div
-        onClick={() => (isCollection ? onOpen(project) : onPlayTheater(project))}
-        className="block w-full rounded-3xl p-5 text-left transition-transform duration-300 group-hover:-translate-y-1 sm:p-7 cursor-pointer"
+        className={`block w-full rounded-3xl p-5 text-left transition-transform duration-300 group-hover:-translate-y-1 sm:p-7 ${
+          isCollection ? "cursor-pointer" : ""
+        }`}
         style={{ background: gradient }}
+        onClick={() => isCollection && onOpen(project)}
       >
         <div className="relative aspect-video overflow-hidden rounded-xl bg-slate-950 shadow-xl shadow-slate-900/25 ring-1 ring-white/30">
           {vimeoId ? (
-            <div className="relative h-full w-full flex items-center justify-center bg-slate-950">
-              {/* Centered vertical 9:16 or wide 16:9 */}
-              <div className={`h-full ${isVertical ? "aspect-[9/16]" : "w-full"} relative`}>
-                <iframe
-                  src={`https://player.vimeo.com/video/${vimeoId}?title=0&byline=0&portrait=0&badge=0&transparent=0`}
-                  className="h-full w-full border-0 pointer-events-none"
-                  allow="autoplay; fullscreen; picture-in-picture"
-                />
-              </div>
-
-              {/* Click to Watch Fullscreen Overlay */}
-              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/40 opacity-0 backdrop-blur-[2px] transition-all duration-300 group-hover:opacity-100">
-                <span className="flex h-14 w-14 items-center justify-center rounded-full bg-accent text-white shadow-xl shadow-accent/50 transition-transform duration-300 group-hover:scale-110">
-                  <svg viewBox="0 0 24 24" className="ml-1 h-6 w-6 fill-current">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </span>
-                <span className="mt-2.5 rounded-full bg-black/75 px-3.5 py-1 text-xs font-semibold tracking-wider text-white backdrop-blur">
-                  Watch Fullscreen ⛶
-                </span>
-              </div>
-
-              {isVertical && (
-                <span className="absolute top-3 left-3 z-10 rounded-full bg-black/60 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white/90 backdrop-blur">
-                  9:16 Reel
-                </span>
-              )}
-            </div>
+            <iframe
+              src={`https://player.vimeo.com/video/${vimeoId}?title=0&byline=0&portrait=0`}
+              className="h-full w-full border-0"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowFullScreen
+            />
           ) : project.kind === "video" && project.video ? (
             <video
               className="h-full w-full object-cover"
@@ -260,29 +218,10 @@ function Card({
           </span>
         </div>
 
-        <div className="flex items-center gap-2">
-          {!isCollection && (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                onPlayTheater(project);
-              }}
-              className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-800 ring-1 ring-slate-900/10 transition hover:bg-slate-200 hover:scale-105 active:scale-95"
-            >
-              <svg viewBox="0 0 24 24" className="h-3 w-3 fill-current">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-              Fullscreen ⛶
-            </button>
-          )}
-
+        {project.caseStudy ? (
           <button
             type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              onOpen(project);
-            }}
+            onClick={() => onOpen(project)}
             className="inline-flex items-center gap-1.5 rounded-full bg-slate-900 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-accent hover:scale-105 active:scale-95"
           >
             Case Study
@@ -290,7 +229,18 @@ function Card({
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>
           </button>
-        </div>
+        ) : isCollection ? (
+          <button
+            type="button"
+            onClick={() => onOpen(project)}
+            className="inline-flex items-center gap-1.5 rounded-full bg-slate-900 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-accent hover:scale-105 active:scale-95"
+          >
+            View Gallery
+            <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </button>
+        ) : null}
       </figcaption>
     </figure>
   );
@@ -787,103 +737,3 @@ function ToolLogo({ tool }: { tool: Tool }) {
     </span>
   );
 }
-
-function VideoTheaterModal({
-  project,
-  onClose,
-  onOpenDetails,
-}: {
-  project: Project;
-  onClose: () => void;
-  onOpenDetails: (p: Project) => void;
-}) {
-  const vimeoId = getVimeoId(project.video);
-  const isVertical = project.aspect === "9/16";
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
-    document.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-    };
-  }, [onClose]);
-
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-3 backdrop-blur-2xl sm:p-6"
-      onClick={onClose}
-    >
-      {/* Top Header Bar */}
-      <div className="absolute top-4 inset-x-4 z-20 flex items-center justify-between px-3 sm:px-8">
-        <div className="flex items-center gap-3">
-          <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white/90 backdrop-blur">
-            {project.client} · {project.year}
-          </span>
-          <span className="hidden sm:inline text-sm font-semibold text-white">
-            {project.title}
-          </span>
-          {isVertical && (
-            <span className="rounded-full bg-accent/20 px-2 py-0.5 text-[10px] font-bold text-accent">
-              9:16 Fullscreen
-            </span>
-          )}
-        </div>
-
-        <div className="flex items-center gap-3">
-          {project.caseStudy && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onClose();
-                onOpenDetails(project);
-              }}
-              className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-white/15 px-4 py-1.5 text-xs font-semibold text-white backdrop-blur transition hover:bg-white/25"
-            >
-              View Case Study ↗
-            </button>
-          )}
-          <button
-            onClick={onClose}
-            aria-label="Close"
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
-          >
-            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      {/* Main Video Stage */}
-      <div
-        className={`relative overflow-hidden rounded-2xl bg-black shadow-2xl ring-1 ring-white/15 ${
-          isVertical
-            ? "h-[88vh] aspect-[9/16] max-w-[500px]"
-            : "w-full max-w-6xl aspect-video max-h-[88vh]"
-        }`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {vimeoId ? (
-          <iframe
-            src={`https://player.vimeo.com/video/${vimeoId}?autoplay=1&title=0&byline=0&portrait=0&badge=0`}
-            className="h-full w-full border-0"
-            allow="autoplay; fullscreen; picture-in-picture"
-            allowFullScreen
-          />
-        ) : project.video ? (
-          <video
-            className="h-full w-full object-cover"
-            src={project.video}
-            poster={project.poster}
-            controls
-            autoPlay
-            playsInline
-          />
-        ) : null}
-      </div>
-    </div>
-  );
-}
-
